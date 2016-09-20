@@ -193,7 +193,7 @@ defmodule ExDoc.Formatter.HTML do
     end
   end
 
-  defp valid_extension_name?(input) do
+  def valid_extension_name?(input) do
     file_ext =
       input
       |> Path.extname()
@@ -282,9 +282,9 @@ defmodule ExDoc.Formatter.HTML do
     file_name
   end
 
-  defp assets_path(patterns) do
+  def assets_path(patterns, formatter \\ "html") do
     Enum.into(patterns, [], fn {pattern, dir} ->
-      {Application.app_dir(:ex_doc, "priv/ex_doc/formatter/html/templates/#{pattern}"), dir}
+      {Application.app_dir(:ex_doc, "priv/ex_doc/formatter/#{formatter}/templates/#{pattern}"), dir}
     end)
   end
 
