@@ -58,22 +58,22 @@ defmodule ExDoc.Formatter.EPUB do
   defp generate_extras(output, config, module_nodes) do
     config.extras
     |> Enum.map(&Task.async(fn ->
-         generate_extra(&1, output, config, module_nodes)
+         create_extra_files(&1, output, config, module_nodes)
        end))
     |> Enum.map(&Task.await(&1, :infinity))
   end
 
-  defp generate_extra(input, output, config, module_nodes) do
+  defp create_extra_files(input, output, config, module_nodes) do
     if HTML.valid_extension_name?(input) do
-      file_name =
-        input
-        |> Path.basename(".md")
-        |> String.upcase()
-
       content =
         input
         |> File.read!()
         |> HTML.Autolink.project_doc(module_nodes, nil, ".xhtml")
+
+      file_name =
+        input
+        |> Path.basename(".md")
+        |> String.upcase()
 
       config = Map.put(config, :title, file_name)
       extra_html =

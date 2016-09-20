@@ -58,7 +58,6 @@ defmodule ExDoc.Formatter.EPUBTest do
     root_dir = "#{output_dir()}"
     meta_dir = "#{root_dir}/META-INF"
     oebps_dir = "#{root_dir}/OEBPS"
-    module_dir = "#{oebps_dir}/modules"
     css_dir = "#{oebps_dir}/css"
 
     assert File.regular?("#{root_dir}/mimetype")
@@ -69,19 +68,19 @@ defmodule ExDoc.Formatter.EPUBTest do
     assert File.regular?("#{oebps_dir}/toc.ncx")
     assert File.regular?("#{oebps_dir}/nav.xhtml")
     assert File.regular?("#{oebps_dir}/title.xhtml")
-    assert File.regular?("#{module_dir}/README.xhtml")
-    assert File.regular?("#{module_dir}/CompiledWithDocs.xhtml")
-    assert File.regular?("#{module_dir}/CompiledWithDocs.Nested.xhtml")
+    assert File.regular?("#{oebps_dir}/README.xhtml")
+    assert File.regular?("#{oebps_dir}/CompiledWithDocs.xhtml")
+    assert File.regular?("#{oebps_dir}/CompiledWithDocs.Nested.xhtml")
   end
 
   test "check headers for module pages" do
     generate_docs_and_unzip doc_config([main: "RandomError", ])
 
-    content = File.read!("#{output_dir()}/OEBPS/modules/RandomError.xhtml")
+    content = File.read!("#{output_dir()}/OEBPS/RandomError.xhtml")
 
     assert content =~ ~r{<html.*xmlns:epub="http://www.idpf.org/2007/ops">}ms
     assert content =~ ~r{<meta charset="utf-8" />}ms
-    assert content =~ ~r{<meta name="generator" content="ExDoc" />}
+    assert content =~ ~r{<meta name="generator" content="ExDoc v[^"]+" />}
     assert content =~ ~r{<title>RandomError - Elixir v1.0.1</title>}
   end
 
@@ -104,7 +103,7 @@ defmodule ExDoc.Formatter.EPUBTest do
     config = doc_config([main: "README", ])
     generate_docs_and_unzip(config)
 
-    content = File.read!("#{output_dir()}/OEBPS/modules/README.xhtml")
+    content = File.read!("#{output_dir()}/OEBPS/README.xhtml")
 
     assert content =~ ~r{<title>README [^<]*</title>}
     assert content =~ ~r{<a href="RandomError.xhtml"><code>RandomError</code>}
@@ -115,13 +114,13 @@ defmodule ExDoc.Formatter.EPUBTest do
     assert content =~ ~r{<text>README</text>}
 
     content = File.read!("#{output_dir()}/OEBPS/nav.xhtml")
-    assert content =~ ~r{<li><a href="modules/README.xhtml">README</a></li>}
+    assert content =~ ~r{<li><a href="README.xhtml">README</a></li>}
   end
 
   test "run should not generate the readme file" do
     generate_docs_and_unzip(doc_config([extras: []]))
 
-    refute File.regular?("#{output_dir()}/OEBPS/modules/README.xhtml")
+    refute File.regular?("#{output_dir()}/OEBPS/README.xhtml")
 
     content = File.read!("#{output_dir()}/OEBPS/content.opf")
     refute content =~ ~r{<title>README [^<]*</title>}
@@ -130,6 +129,6 @@ defmodule ExDoc.Formatter.EPUBTest do
     refute content =~ ~r{<text>README</text>}
 
     content = File.read!("#{output_dir()}/OEBPS/nav.xhtml")
-    refute content =~ ~r{<li><a href="modules/README.html">README</a></li>}
+    refute content =~ ~r{<li><a href="README.html">README</a></li>}
   end
 end

@@ -1,4 +1,4 @@
-<%= head_template(config) %>
+<%= head_template(config, %{title: "Cover"}) %>
     <h1><%= config.project %></h1>
     <h2>v<%= config.version %></h2>
     <%= if config.logo do %>
