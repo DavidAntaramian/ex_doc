@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <title><%= module.id %> - <%= config.project %> v<%= config.version %></title>
     <meta name="generator" content="ExDoc" />
-    <link type="text/css" rel="stylesheet" href="../css/stylesheet.css" />
+    <link type="text/css" rel="stylesheet" href="css/stylesheet.css" />
   </head>
   <body>
     <h1 id="content">

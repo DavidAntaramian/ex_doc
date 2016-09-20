@@ -65,6 +65,10 @@ defmodule ExDoc.Formatter.EPUB.Templates do
                          Path.expand("templates/toc_template.eex", __DIR__),
                          [:config, :nodes, :uuid])
 
+  EEx.function_from_file(:defp, :head_template,
+                         Path.expand("templates/head_template.eex", __DIR__),
+                         [:config])
+
   # Helpers
   defp extra_title(path), do: path |> String.upcase |> Path.basename(".MD")
 end

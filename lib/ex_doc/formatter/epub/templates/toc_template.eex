@@ -24,7 +24,7 @@
         <navLabel>
         <text><%= extra_title(extra) %></text>
         </navLabel>
-        <content src="modules/<%= extra_title(extra) %>.xhtml"/>
+        <content src="<%= extra_title(extra) %>.xhtml"/>
       </navPoint>
     <% end %>
     <% start_value = Enum.count(config.extras) + 2 %>
@@ -33,7 +33,7 @@
       <navLabel>
         <text><%= node.id %></text>
       </navLabel>
-      <content src="modules/<%= node.id %>.xhtml"/>
+      <content src="<%= node.id %>.xhtml"/>
     </navPoint>
     <% end %>
   </navMap>
